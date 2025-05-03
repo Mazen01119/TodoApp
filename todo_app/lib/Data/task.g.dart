@@ -19,8 +19,8 @@ class TaskAdapter extends TypeAdapter<Task> {
     return Task(
       title: fields[0] as String,
       description: fields[1] as String,
-      priority: fields[3] as int,
       dueDate: fields[2] as DateTime?,
+      priority: fields[3] as int,
       isCompleted: fields[4] as bool,
     );
   }

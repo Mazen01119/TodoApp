@@ -18,8 +18,22 @@ class TaskTile extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border.all(color: Colors.grey),
         ),
-        child: ListTile(
-          leading: IconButton(onPressed: ()async {
+        child: 
+          task.isCompleted ? ListTile(
+            leading: IconButton(onPressed: () async {
+              await databaseProvider.untoggleTaskCompletion(goalIndex, task);
+              Navigator.of(context).pop();
+            }, icon: Icon(Icons.check_box_outlined, color: Colors.green,)),
+            title: Text(task.title, style: TextStyle(decoration: TextDecoration.lineThrough),),
+          ) :
+        
+        
+         ListTile(
+          leading: 
+          
+          
+          
+          IconButton(onPressed: ()async {
             await databaseProvider.updateTaskCompletion(goalIndex, task);
             Navigator.of(context).pop();
           }, icon: Icon(Icons.check_box_outline_blank)),

@@ -18,6 +18,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  bool isFirstGoalEmpty = true;
+  bool isSecondGoalEmpty = true;
+  bool isThirdGoalEmpty = true;
   DateTime? selectedDate = DateTime.now();
   String? selectedValue = "1";
   String? selected;
@@ -89,7 +92,7 @@ class _HomePageState extends State<HomePage> {
                     controller: _dateController,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: "When is this Task Due?",
+                      labelText: "Task Due Date",
                       hintText: "Pick a date",
                       suffixIcon: IconButton(
                         icon: Icon(Icons.calendar_today),
@@ -160,6 +163,7 @@ class _HomePageState extends State<HomePage> {
                         Navigator.of(context).pop(); // Close the dialog
                         titleController.clear();
                         descriptionController.clear();
+                       
               
                       }
                     },
@@ -196,112 +200,150 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-
-  
-
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        scrolledUnderElevation: 0,
+        backgroundColor: Colors.white,
         title: isLoading ? Text("Hello, User") : Text("Hello, " + firstName),
         actions: [
           //IconButton(onPressed: () {}, icon: Icon(Icons.settings)),
         ],
-      ),
-      body: isLoading ? const CircularProgressIndicator() : ListView(
-       // mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          goalBox.length>0 ?  Column(
-            children: [
-             GestureDetector(
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => GoalPage(goalIndex: 0,tasks: listeningProvider.myGoals[0].goalTasks, goalTitle:listeningProvider.myGoals[0].goalName ,)));
-              },
-               child:  Padding(
-                  padding: EdgeInsets.all(5.0),
-                  child: Align(alignment: Alignment.centerLeft, child:  Text(listeningProvider.myGoals[0].goalName, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),)),
-                ),
-             ),
-              Container(
-                color: Colors.teal,
-                height: 180,
-                width: double.infinity,
-                child: listeningProvider.myGoals[0].goalTasks.length == 0 ? Container(color: Colors.transparent, child: Center(child: Text("No current Tasks", style: TextStyle(fontWeight: FontWeight.bold),),),) : ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: listeningProvider.myGoals[0].goalTasks.length,
-                  itemBuilder: (context, index) {
-                   
-                      return  Padding(
-                      padding:  EdgeInsets.all(8.0),
-                      child: GestureDetector(child: MyTaskCard(task: listeningProvider.myGoals[0].goalTasks[index], goalIndex: 0), onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => SingleTaskPage(task: listeningProvider.myGoals[0].goalTasks[index], goalIndex: 0)));}),
-                    );
-                    
-                    
-                }),
-              ),
-             const SizedBox(height: 20,)
-            ],
-          )  : Container(),
-
-          goalBox.length>1 ? Column(
-            children: [
-              GestureDetector(
-                 onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => GoalPage(goalIndex: 1,tasks: listeningProvider.myGoals[1].goalTasks, goalTitle:listeningProvider.myGoals[1].goalName ,)));
-              },
-                child: Padding(
-                  padding:  EdgeInsets.all(5.0),
-                  child: Align(alignment: Alignment.centerLeft, child:  Text(listeningProvider.myGoals[1].goalName, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold))),
-                ),
-              ),
-              Container(
-                color: Colors.teal,
-                height: 180,
-                width: double.infinity,
-                child:  listeningProvider.myGoals[1].goalTasks.length == 0 ? Container(color: Colors.transparent, child: Center(child: Text("No current Tasks", style: TextStyle(fontWeight: FontWeight.bold),),),) : ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: listeningProvider.myGoals[1].goalTasks.length,
-                  itemBuilder: (context, index) {
-                    return   Padding(
-                      padding:  EdgeInsets.all(8.0),
-                      child: GestureDetector(child: MyTaskCard(task: listeningProvider.myGoals[1].goalTasks[index], goalIndex: 1,), onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => SingleTaskPage(task: listeningProvider.myGoals[1].goalTasks[index], goalIndex: 1)));},),
-                    );
-                }),
-              ),
-               SizedBox(height: 20,)
-
-            ],
-          ) : Container(),
-
-          goalBox.length>2 ? Column(
-            children: [
-               GestureDetector(
-                 onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => GoalPage(goalIndex: 2,tasks: listeningProvider.myGoals[2].goalTasks, goalTitle:listeningProvider.myGoals[2].goalName ,)));
-              },
-                 child: Padding(
-                  padding:  EdgeInsets.all(5.0),
-                  child: Align(alignment: Alignment.centerLeft, child:  Text(listeningProvider.myGoals[2].goalName, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold))),
-                               ),
-               ),
-              Container(
-                color: Colors.teal,
-                height: 180,
-                width: double.infinity,
-                child:  listeningProvider.myGoals[2].goalTasks.length == 0 ? Container(color: Colors.transparent, child: Center(child: Text("No current Tasks", style: TextStyle(fontWeight: FontWeight.bold),),),) : ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: listeningProvider.myGoals[2].goalTasks.length,
-                  itemBuilder: (context, index) {
-                    return   Padding(
-                      padding:  EdgeInsets.all(8.0),
-                      child: GestureDetector(child: MyTaskCard(task: listeningProvider.myGoals[2].goalTasks[index], goalIndex: 2, ), onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => SingleTaskPage(task: listeningProvider.myGoals[2].goalTasks[index], goalIndex: 2)));}),
-                    );
-                }),
-              ),
-              const SizedBox(height: 20,)
-            ],
-          ) : Container(),
-
         
-        ],
+      ),
+      body: Column(
+        children: [
+         Divider(),
+         isLoading ? const CircularProgressIndicator() : Expanded(
+           child: ListView(
+                  // mainAxisAlignment: MainAxisAlignment.start,
+                   children: [
+            goalBox.length>0 ?  Column(
+              children: [
+               GestureDetector(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => GoalPage(goalIndex: 0,tasks: listeningProvider.myGoals[0].goalTasks, goalTitle:listeningProvider.myGoals[0].goalName ,)));
+                },
+                 child:  Padding(
+                    padding: EdgeInsets.all(5.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Align(alignment: Alignment.centerLeft, child:  Text(listeningProvider.myGoals[0].goalName, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),)),
+                        Text(databaseProvider.firstGoalCompletionRate.toStringAsFixed(2) + " %", style: TextStyle(fontSize: 20),)
+                      ],
+                    ),
+                  ),
+               ),
+                Container(
+                  color: Color(0xFF9BDBE5).withOpacity(0.4),
+                  height: 180,
+                  width: double.infinity,
+                  child: listeningProvider.myGoals[0].goalTasks.length == 0 ? Container(color: Colors.transparent, child: Center(child: Text("No current Tasks", style: TextStyle(fontWeight: FontWeight.bold),),),) : ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: listeningProvider.myGoals[0].goalTasks.length,
+                    itemBuilder: (context, index) {
+                      if(listeningProvider.myGoals[0].goalTasks[index].isCompleted == true){
+                        return SizedBox.shrink();
+                      } else{
+                        
+                        
+                        return  Padding(
+                        padding:  EdgeInsets.all(8.0),
+                        child: GestureDetector(child: 
+                         
+                        MyTaskCard(task: listeningProvider.myGoals[0].goalTasks[index] , goalIndex: 0), onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => SingleTaskPage(task: listeningProvider.myGoals[0].goalTasks[index], goalIndex: 0)));}),
+                      );
+                      
+                      }
+                  }),
+                ),
+               const SizedBox(height: 20,)
+              ],
+            )  : Container(),
+           
+            goalBox.length>1 ? Column(
+              children: [
+                GestureDetector(
+                   onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => GoalPage(goalIndex: 1,tasks: listeningProvider.myGoals[1].goalTasks, goalTitle:listeningProvider.myGoals[1].goalName ,)));
+                },
+                  child: Padding(
+                    padding:  EdgeInsets.all(5.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Align(alignment: Alignment.centerLeft, child:  Text(listeningProvider.myGoals[1].goalName, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))),
+                        Text(databaseProvider.secondGoalCompletionRate.toStringAsFixed(2) + " %", style: TextStyle(fontSize: 20),)
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  color: Color(0xFF9BDBE5).withOpacity(0.4),
+                  height: 180,
+                  width: double.infinity,
+                  child:  listeningProvider.myGoals[1].goalTasks.length == 0 ? Container(color: Colors.transparent, child: Center(child: Text("No current Tasks", style: TextStyle(fontWeight: FontWeight.bold),),),) : ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: listeningProvider.myGoals[1].goalTasks.length,
+                    itemBuilder: (context, index) {
+                      if(listeningProvider.myGoals[1].goalTasks[index].isCompleted == true){
+                        return SizedBox.shrink();
+                      }
+                      return   Padding(
+                        padding:  EdgeInsets.all(8.0),
+                        child: GestureDetector(child: MyTaskCard(task: listeningProvider.myGoals[1].goalTasks[index], goalIndex: 1,), onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => SingleTaskPage(task: listeningProvider.myGoals[1].goalTasks[index], goalIndex: 1)));},),
+                      );
+                  }),
+                ),
+                 SizedBox(height: 20,)
+           
+              ],
+            ) : Container(),
+           
+            goalBox.length>2 ? Column(
+              children: [
+                 GestureDetector(
+                   onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => GoalPage(goalIndex: 2,tasks: listeningProvider.myGoals[2].goalTasks, goalTitle:listeningProvider.myGoals[2].goalName ,)));
+                },
+                   child: Padding(
+                    padding:  EdgeInsets.all(5.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Align(alignment: Alignment.centerLeft, child:  Text(listeningProvider.myGoals[2].goalName, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))),
+                      Text(databaseProvider.thirdGoalCompletionRate.toStringAsFixed(2) + " %", style: TextStyle(fontSize: 20),)
+                      ],
+                    ),
+                                 ),
+                 ),
+                Container(
+                  color: Color(0xFF9BDBE5).withOpacity(0.4),
+                  height: 180,
+                  width: double.infinity,
+                  child:  listeningProvider.myGoals[2].goalTasks.length == 0 ? Container(color: Colors.transparent, child: Center(child: Text("No current Tasks", style: TextStyle(fontWeight: FontWeight.bold),),),) : ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: listeningProvider.myGoals[2].goalTasks.length,
+                    itemBuilder: (context, index) {
+                       if(listeningProvider.myGoals[2].goalTasks[index].isCompleted == true){
+                        return SizedBox.shrink();
+                      }
+                      return   Padding(
+                        padding:  EdgeInsets.all(8.0),
+                        child: GestureDetector(child: MyTaskCard(task: listeningProvider.myGoals[2].goalTasks[index], goalIndex: 2, ), onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => SingleTaskPage(task: listeningProvider.myGoals[2].goalTasks[index], goalIndex: 2)));}),
+                      );
+                  }),
+                ),
+                const SizedBox(height: 20,)
+              ],
+            ) : Container(),
+           
+                   
+                   ],
+                 ),
+         ),],
+
       ),
       floatingActionButton: FloatingActionButton(onPressed: showAddTaskDialog, child: Icon(Icons.add_task),backgroundColor: Colors.blue,),
     );

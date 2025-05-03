@@ -31,18 +31,26 @@ class SingleTaskPage extends StatelessWidget {
                   height: 300,
                   width: 340,
                   color: Colors.teal,
-                  child: RichText(text:  TextSpan(children: [
-                    TextSpan(text: "Due Date: ", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-                    TextSpan(text: "$formatted\n", style: TextStyle(fontSize: 18)),
-                    TextSpan(text: "Priority: ", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-                    TextSpan(text: task.priority.toString() +"\n", style: TextStyle(fontSize: 18)),
-                    TextSpan(text: "Description: ", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-                    TextSpan(text: task.description+ "\n", style: TextStyle(fontSize: 18))
-                  ])),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: RichText(text:  TextSpan(children: [
+                      TextSpan(text: "Due Date: ", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                      TextSpan(text: "$formatted\n", style: TextStyle(fontSize: 18)),
+                      TextSpan(text: "Priority: ", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                      TextSpan(text: task.priority.toString() +"\n", style: TextStyle(fontSize: 18)),
+                      TextSpan(text: "Description: ", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                      TextSpan(text: task.description+ "\n", style: TextStyle(fontSize: 18))
+                    ])),
+                  ),
                 ),
                 const SizedBox(height: 10,),
                 MyButton(title: "Complete", onPressed: () async {
                   await databaseProvider.updateTaskCompletion(goalIndex, task);
+                  Navigator.of(context).pop();
+                }),
+                const SizedBox(height: 20,),
+                MyButton(title: "Delete", onPressed: () async {
+                  await databaseProvider.deleteTask(goalIndex, task);
                   Navigator.of(context).pop();
                 })
             ],

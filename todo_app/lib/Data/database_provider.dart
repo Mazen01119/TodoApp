@@ -40,13 +40,45 @@ final db = DatabaseServices();
   List<Goal> get myGoals => _myGoals;
   List<String> _goalNames = [];
   List<String> get goalNames =>_goalNames;
+  double firstGoalCompletionRate = 0;
+  double secondGoalCompletionRate = 0;
+  double thirdGoalCompletionRate = 0;
+
   Future<List<String>> getGoals() async {
+    int completedTaskCount = 0;
     _goalNames = [];
     _myGoals = await db.getMyGoalsFromDatabase();
-    for(Goal goal in _myGoals) {
+
+    for(int i =0; i<myGoals.length; i++){
+      Goal goal = myGoals[i];
       _goalNames.add(goal.goalName);
+      for(Task task in goal.goalTasks){
+        if(task.isCompleted == true){
+          completedTaskCount++;
+        }}
+        switch(i){
+          
+          case 0: 
+          print("tried caluclating firstgoalcompletionrate");
+            firstGoalCompletionRate = (completedTaskCount / goal.goalTasks.length) *100;
+            completedTaskCount = 0;
+            break;
+          case 1:
+          print("tried caluclating secondgoalcompletionrate");
+            secondGoalCompletionRate = (completedTaskCount / goal.goalTasks.length) * 100;
+            completedTaskCount = 0;
+            break;
+          case 2: 
+          print("tried caluclating thirdgoalcompletionrate");
+            thirdGoalCompletionRate = (completedTaskCount / goal.goalTasks.length) * 100;
+            print("$thirdGoalCompletionRate + $completedTaskCount + $goal.goalTasks.length ");
+            completedTaskCount = 0;
+            break;
+          default: 
+            break;
+        }
+      
     }
-    
     notifyListeners();
     return goalNames;
   }
@@ -67,5 +99,15 @@ final db = DatabaseServices();
 
  }
 
+Future<void> deleteTask(int goalIndex, Task task) async {
+  await db.deleteTaskFromDatabase(goalIndex, task);
+  await getGoals();
+}
+
+Future<void> untoggleTaskCompletion(int goalIndex, Task task) async {
+  task.isCompleted = false;
+  await db.untoggleTaskCompletionInDatabase(goalIndex, task);
+  await getGoals();
+}
 
 }

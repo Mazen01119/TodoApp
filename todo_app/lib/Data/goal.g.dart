@@ -19,7 +19,8 @@ class GoalAdapter extends TypeAdapter<Goal> {
     return Goal(
       goalId: fields[0] as String,
       goalName: fields[1] as String,
-    )..goalTasks = (fields[2] as List).cast<Task>();
+      tasks: (fields[2] as List?)?.cast<Task>(),
+    );
   }
 
   @override

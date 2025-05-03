@@ -31,7 +31,29 @@ class DatabaseServices {
     Goal _goal = goalBox.getAt(goalIndex);
     for(int i=0; i<_goal.goalTasks.length; i++){
       if(_goal.goalTasks[i].title == task.title) {
+        _goal.goalTasks[i] = task;
+      }
+      goalBox.putAt(goalIndex, _goal);
+      
+    }
+  }
+
+  Future<void> deleteTaskFromDatabase(int goalIndex, Task task) async {
+    Goal _goal = goalBox.getAt(goalIndex);
+    for(int i=0; i<_goal.goalTasks.length; i++){
+      if(_goal.goalTasks[i].title == task.title) {
         _goal.goalTasks.removeAt(i);
+      }
+      goalBox.putAt(goalIndex, _goal);
+  }
+
+}
+
+  Future<void> untoggleTaskCompletionInDatabase(int goalIndex, Task task) async {
+    Goal _goal = goalBox.getAt(goalIndex);
+    for(int i=0; i<_goal.goalTasks.length; i++){
+      if(_goal.goalTasks[i].title == task.title) {
+        _goal.goalTasks[i] = task;
       }
       goalBox.putAt(goalIndex, _goal);
       

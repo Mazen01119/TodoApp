@@ -32,7 +32,7 @@ class RegisterPage extends StatelessWidget {
                   if(value == null || value.isEmpty){
                     return "Please Enter Your First Name";
                   }
-                }, maxLength: 50,controller: firstNameController, decoration: const InputDecoration(
+                }, maxLength: 30,controller: firstNameController, decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: "First Name",
                           hintText: "Enter your first Name",
@@ -46,7 +46,7 @@ class RegisterPage extends StatelessWidget {
                     return "Please Your First Goal";
                   }
                 },
-                maxLength: 50,
+                maxLength: 30,
                 controller: goalOneController, decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: "Goal 1",
@@ -58,7 +58,7 @@ class RegisterPage extends StatelessWidget {
                   if(value == null || value.isEmpty){
                     return "Please Enter Your second Goal";
                   }
-                }, maxLength: 50, controller:  goalTwoController, decoration: const InputDecoration(
+                }, maxLength: 30, controller:  goalTwoController, decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: "Goal 2",
                           hintText: "Enter your second Goal",
@@ -83,7 +83,7 @@ class RegisterPage extends StatelessWidget {
                   await databaseProvider.addGoal(goalName: goalTwoController.text); 
                   await databaseProvider.addGoal(goalName: goalThreeController.text);
                   await person.put('firstName', firstNameController.text);
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
                 }
               })
                   ],),

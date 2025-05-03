@@ -16,7 +16,8 @@ class _GoalPageState extends State<GoalPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(foregroundColor: Colors.blue,),
+      backgroundColor: Colors.white,
+      appBar: AppBar(foregroundColor: Colors.blue, scrolledUnderElevation: 0, backgroundColor: Colors.white,),
       body: Column(
         children: [
            Padding(

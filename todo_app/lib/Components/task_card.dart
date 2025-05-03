@@ -44,7 +44,7 @@ class MyTaskCard extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 3.0),
                 child: Row(
                   children: [
-                    Text("Due Date: ",  style: TextStyle(fontWeight: FontWeight.bold, color: Colors.green, fontStyle: FontStyle.italic, )),
+                    Text("Due Date: ",  style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontStyle: FontStyle.italic, )),
                     Text(formatted, style: TextStyle(fontStyle: FontStyle.italic, ),),
                   ],
                 ),
@@ -57,7 +57,7 @@ class MyTaskCard extends StatelessWidget {
               child: Container(
                 width: 140,
                 child: ElevatedButton( style: ElevatedButton.styleFrom(backgroundColor: Colors.teal),onPressed: () async {
-
+                    print("Complete Button pressed");
                     await databaseProvider.updateTaskCompletion(goalIndex, task);
                     
                 }, child: Text("Complete",style: TextStyle(fontSize: 14, color: Colors.white), ))),
